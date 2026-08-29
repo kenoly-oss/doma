@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>for joyce, my favorite blossom demon 🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blush:#fff3f7;
+    --sakura:#f5a8c7;
+    --sakura-deep:#e881ae;
+    --lavender:#cdbdfb;
+    --mint:#a9e6c8;
+    --gold:#f8d488;
+    --plum:#5b3a55;
+    --plum-soft:#8a6b86;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{ height:100%; }
+  body{
+    background:var(--blush);
+    color:var(--plum);
+    font-family:'Quicksand', sans-serif;
+    overflow:hidden;
+    position:relative;
+  }
+  h1,h2,.display{ font-family:'Fredoka', sans-serif; }
+
+  #petals{ position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden;}
+  .petal{
+    position:absolute; top:-40px;
+    font-size:18px;
+    animation:fall linear infinite;
+    opacity:0.85;
+    filter:drop-shadow(0 2px 2px rgba(232,129,174,0.15));
+  }
+  @keyframes fall{
+    0%{ transform:translateY(-5vh) translateX(0) rotate(0deg); }
+    100%{ transform:translateY(105vh) translateX(var(--drift,40px)) rotate(360deg); }
+  }
+
+  .stage{ position:relative; z-index:2; height:100vh; width:100vw; overflow:hidden;}
+  .page{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:24px; padding-bottom:70px;
+    opacity:0; pointer-events:none;
+    transform:translateX(40px) scale(0.98);
+    transition:opacity .5s ease, transform .5s ease;
+    overflow-y:auto;
+  }
+  .page.active{ opacity:1; pointer-events:auto; transform:translateX(0) scale(1); }
+
+  .eyebrow{
+    font-size:13px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--sakura-deep); font-weight:700; margin-bottom:10px;
+  }
+  .blossom-ring{
+    width:120px; height:120px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ffffff, var(--sakura) 70%);
+    display:flex; align-items:center; justify-content:center;
+    font-size:48px;
+    box-shadow:0 0 0 8px #ffffffaa, 0 20px 40px -12px rgba(232,129,174,0.5);
+    animation:float 5s ease-in-out infinite;
+    margin-bottom:22px;
+  }
+  @keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+
+  h1{
+    font-size:clamp(38px, 8vw, 72px);
+    font-weight:700; line-height:1.08;
+    background:linear-gradient(100deg, var(--sakura-deep), var(--lavender) 60%, var(--sakura-deep));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:14px;
+  }
+  .sub{ font-size:clamp(15px,2.6vw,19px); color:var(--plum-soft); max-width:520px; font-weight:600; line-height:1.6;}
+
+  .card-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+    gap:16px; margin-top:28px; max-width:680px; width:100%;
+  }
+  .card{
+    background:#fff; border-radius:20px; padding:20px;
+    border:2px solid #ffe1ec;
+    box-shadow:0 10px 26px -18px rgba(232,129,174,0.4);
+    text-align:left;
+  }
+  .card .icon{ font-size:26px; margin-bottom:8px; display:block;}
+  .card h3{ font-family:'Fredoka',sans-serif; font-size:16px; margin-bottom:4px;}
+  .card p{ font-size:13px; color:var(--plum-soft); line-height:1.5; font-weight:500;}
+
+  .note-box{
+    margin-top:24px; background:#fff;
+    border-radius:24px; padding:26px; max-width:560px;
+    border:2px dashed var(--sakura);
+    font-size:15px; color:var(--plum-soft); font-weight:500; line-height:1.7;
+    text-align:left;
+  }
+
+  .final-heart{ font-size:60px; margin-bottom:10px; animation:pulse 1.6s ease-in-out infinite;}
+  @keyframes pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+  .dots{
+    position:fixed; bottom:26px; left:50%; transform:translateX(-50%);
+    display:flex; gap:10px; z-index:5;
+  }
+  .dot{
+    width:10px; height:10px; border-radius:50%;
+    background:#ffd2e4; cursor:pointer; transition:all .25s ease;
+    border:none;
+  }
+  .dot.active{ background:var(--sakura-deep); width:26px; border-radius:6px;}
+
+  .click-zone{
+    position:fixed; top:0; bottom:0; width:34%; z-index:4; cursor:pointer;
+  }
+  .click-zone.left{ left:0; }
+  .click-zone.right{ right:0; }
+
+  .hint{
+    position:fixed; z-index:5; top:22px; font-size:12px; font-weight:700;
+    color:var(--plum-soft); background:#ffffffcc; padding:6px 14px; border-radius:999px;
+    letter-spacing:0.04em;
+  }
+  .hint.l{ left:20px; }
+  .hint.r{ right:20px; }
+
+  button.tap-btn{
+    margin-top:18px; margin-bottom:8px; font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px;
+    background:var(--sakura-deep); color:#fff; border:none;
+    padding:14px 30px; border-radius:999px; cursor:pointer;
+    box-shadow:0 10px 24px -8px rgba(232,129,174,0.6);
+    transition:transform .15s ease;
+  }
+  button.tap-btn:hover{ transform:scale(1.05); }
+
+  @media (prefers-reduced-motion: reduce){
+    .petal, .blossom-ring, .final-heart{ animation:none !important; }
+  }
+  @media (max-width:640px){
+    .hint{ display:none; }
+  }
+  .music-btn{
+    position:fixed; top:22px; left:50%; transform:translateX(-50%);
+    z-index:6; background:#ffffffcc; border:none; border-radius:999px;
+    padding:8px 16px; font-size:13px; font-weight:700; color:var(--sakura-deep);
+    cursor:pointer; box-shadow:0 6px 16px -8px rgba(232,129,174,0.5);
+    display:flex; align-items:center; gap:6px;
+  }
+  .music-btn:hover{ background:#ffffff; }
+</style>
+</head>
+<body>
+
+  TO ADD YOUR OWN SONG FILE:
+  1. Save your song file (e.g. "blossom.mp3") in the same folder as this HTML file.
+  2. Uncomment the <audio> tag below and make sure the file name matches exactly.
+  3. The music button will then play your file instead of the placeholder tune.
+
+  <audio id="song" src="blossom.mp3" loop></audio>
+
+<div id="petals"></div>
+
+<button class="music-btn" onclick="toggleMusic()">
+  <span id="music-icon">🎵</span> <span id="music-label">play a little tune</span>
+</button>
+
+<div class="hint l">← prev</div>
+<div class="hint r">next →</div>
+<div class="click-zone left" onclick="go(-1)"></div>
+<div class="click-zone right" onclick="go(1)"></div>
+
+<div class="stage">
+
+  <div class="page active" data-page="0">
+    <div class="blossom-ring">🌸</div>
+    <p class="eyebrow">an unofficial shrine for</p>
+    <h1>Doma &<br>Darkwolf</h1>
+    <p class="sub">the blossom demon and her wolf — bestie, chaos coordinator, professional cute-cheek enthusiast — click anywhere to keep going 🎀</p>
+  </div>
+
+  <div class="page" data-page="1">
+    <span class="eyebrow">certified facts</span>
+    <h1 style="font-size:clamp(30px,6vw,48px);">things everyone<br>should know</h1>
+    <div class="card-grid">
+      <div class="card">
+        <span class="icon">🌸</span>
+        <h3>Anime brain, 24/7</h3>
+        <p>If it's animated and has a plot twist, she's already watched it, rated it, and picked a bias.</p>
+      </div>
+      <div class="card">
+        <span class="icon">🐹</span>
+        <h3>Chipmunk-cheek connoisseur</h3>
+        <p>BTS-cheeks-when-they-smile is her whole personality type. Certified soft-boy scout.</p>
+      </div>
+      <div class="card">
+        <span class="icon">👑</span>
+        <h3>Self-appointed Doma</h3>
+        <p>Named herself after the prettiest, most dramatic character in the show. Iconic behavior.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" data-page="2">
+    <span class="eyebrow">for the record</span>
+    <h1 style="font-size:clamp(30px,6vw,48px);">why she's<br>my person</h1>
+    <div class="note-box">
+      there was this hourglass. she said she liked it, so I stole it for her right then and there — no hesitation, no plan, just "she wants it, she's getting it." she still has it to this day. that's kind of us in one object: a little reckless, a little ride-or-die, and somehow it just works.
+    </div>
+    <div class="note-box" style="margin-top:16px;">
+      and then there's the class drama era — something would go down, and without even talking about it we'd be up and walking straight to the teacher's office to report it. no discussion needed, just two people who moved as one whenever something needed sorting out.
+    </div>
+  </div>
+
+  <div class="page" data-page="3">
+    <div class="final-heart">💗</div>
+    <h1>you're the best<br>best friend<br>i've ever had.</h1>
+    <p class="sub">every version of me is lucky to know every version of you. that's it, that's the page.</p>
+    <p class="sub" style="margin-top:10px;">i love you in a way you'll never fully know — the kind that doesn't need saying out loud, just lived, every day, quietly, completely.</p>
+    <p class="sub" style="margin-top:10px; font-size:13px; opacity:0.85;">her song: "Blossom" — ENHYPEN 🌸</p>
+    <p class="sub" style="margin-top:4px; font-size:14px; color:var(--sakura-deep);">— Darkwolf 🐺</p>
+    <button class="tap-btn" onclick="restart()">watch it again 🌸</button>
+  </div>
+
+</div>
+
+<div class="dots">
+  <button class="dot active" onclick="goTo(0)"></button>
+  <button class="dot" onclick="goTo(1)"></button>
+  <button class="dot" onclick="goTo(2)"></button>
+  <button class="dot" onclick="goTo(3)"></button>
+</div>
+
+<script>
+  const petalContainer = document.getElementById('petals');
+  const petalEmojis = ['🌸','🌸','🌸','💮','🐺'];
+  for(let i=0;i<20;i++){
+    const p = document.createElement('div');
+    p.className='petal';
+    p.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+    p.style.left = Math.random()*100+'vw';
+    p.style.fontSize = (14+Math.random()*16)+'px';
+    p.style.setProperty('--drift', (Math.random()*160-80)+'px');
+    p.style.animationDuration = (9+Math.random()*10)+'s';
+    p.style.animationDelay = (Math.random()*10)+'s';
+    petalContainer.appendChild(p);
+  }
+
+  const pages = document.querySelectorAll('.page');
+  const dots = document.querySelectorAll('.dot');
+  let current = 0;
+  const total = pages.length;
+
+  function render(){
+    pages.forEach((p,i)=> p.classList.toggle('active', i===current));
+    dots.forEach((d,i)=> d.classList.toggle('active', i===current));
+  }
+  function go(delta){
+    const next = current + delta;
+    if(next < 0 || next >= total) return;
+    current = next;
+    render();
+  }
+  function goTo(i){ current = i; render(); }
+  function restart(){ current = 0; render(); }
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  // tiny original melody, played on toggle — a gentle little tune, not from any existing song
+  let audioCtx = null;
+  let musicPlaying = false;
+  let musicTimeouts = [];
+
+  const melody = [
+    // [note frequency in Hz, duration in seconds]
+    [523.25, 0.35], [587.33, 0.35], [659.25, 0.35], [523.25, 0.35],
+    [659.25, 0.35], [698.46, 0.35], [783.99, 0.7],
+    [698.46, 0.35], [659.25, 0.35], [587.33, 0.35], [523.25, 0.7],
+    [493.88, 0.35], [523.25, 0.35], [587.33, 0.7],
+  ];
+
+  function playNote(freq, duration, startTime){
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, startTime);
+    gain.gain.linearRampToValueAtTime(0.18, startTime + 0.03);
+    gain.gain.linearRampToValueAtTime(0, startTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(startTime);
+    osc.stop(startTime + duration + 0.02);
+  }
+
+  function playMelodyLoop(){
+    if(!musicPlaying) return;
+    let t = audioCtx.currentTime + 0.05;
+    melody.forEach(([freq, dur])=>{
+      playNote(freq, dur, t);
+      t += dur + 0.04;
+    });
+    const totalDuration = melody.reduce((sum,[,d])=> sum + d + 0.04, 0);
+    const id = setTimeout(playMelodyLoop, totalDuration * 1000);
+    musicTimeouts.push(id);
+  }
+
+  function toggleMusic(){
+    if(!audioCtx){ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    musicPlaying = !musicPlaying;
+    const icon = document.getElementById('music-icon');
+    const label = document.getElementById('music-label');
+    if(musicPlaying){
+      if(audioCtx.state === 'suspended') audioCtx.resume();
+      icon.textContent = '⏸';
+      label.textContent = 'pause the tune';
+      playMelodyLoop();
+    } else {
+      icon.textContent = '🎵';
+      label.textContent = 'play a little tune';
+      musicTimeouts.forEach(id => clearTimeout(id));
+      musicTimeouts = [];
+    }
+  }
+</script>
+
+</body>
+</html>
