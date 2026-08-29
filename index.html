@@ -154,13 +154,6 @@
 </head>
 <body>
 
-  TO ADD YOUR OWN SONG FILE:
-  1. Save your song file (e.g. "blossom.mp3") in the same folder as this HTML file.
-  2. Uncomment the <audio> tag below and make sure the file name matches exactly.
-  3. The music button will then play your file instead of the placeholder tune.
-
-  <audio id="song" src="blossom.mp3" loop></audio>
-
 <div id="petals"></div>
 
 <button class="music-btn" onclick="toggleMusic()">
@@ -311,6 +304,25 @@
   }
 
   function toggleMusic(){
+    const songEl = document.getElementById('song');
+
+    if(songEl){
+      // real song file is present and uncommented — play that instead
+      if(songEl.paused){
+        songEl.play();
+        musicPlaying = true;
+        document.getElementById('music-icon').textContent = '⏸';
+        document.getElementById('music-label').textContent = 'pause the song';
+      } else {
+        songEl.pause();
+        musicPlaying = false;
+        document.getElementById('music-icon').textContent = '🎵';
+        document.getElementById('music-label').textContent = 'play a little tune';
+      }
+      return;
+    }
+
+    // fallback: no real song file wired in, play the placeholder melody
     if(!audioCtx){ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
     musicPlaying = !musicPlaying;
     const icon = document.getElementById('music-icon');
